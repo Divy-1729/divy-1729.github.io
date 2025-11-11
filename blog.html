@@ -5,6 +5,52 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Blog</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .blog-post-section {
+      background: var(--card-bg, #ffffff);
+      border: 1px solid var(--border-color, #e0e0e0);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .blog-post-section:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    .post-preview {
+      margin: 0;
+    }
+    
+    .post-title {
+      margin: 0 0 12px 0;
+      color: var(--heading-color, #1a1a1a);
+    }
+    
+    .post-meta {
+      color: var(--text-secondary, #666);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    .post-excerpt {
+      color: var(--text-primary, #333);
+      line-height: 1.6;
+      margin: 0;
+    }
+    
+    .post-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .post-link:hover .post-title {
+      color: var(--link-color, #0066cc);
+    }
+  </style>
 </head>
 <body>
    <header class="header">
@@ -72,10 +118,8 @@
           return;
         }
 
-        const html = blogPosts.map((post, index) => {
-          // Default to posts/<slug>.html. If your hosting uses folder-per-post, change to `posts/${post.slug}/`
+        const html = blogPosts.map(post => {
           const url = `posts/${post.slug}.html`;
-          const hrElement = index < blogPosts.length - 1 ? '<hr class="post-divider" />' : '';
           return ''
             + '<section class="blog-post-section">'
             +   '<article class="post-preview">'
@@ -85,8 +129,7 @@
             +     `<div class="post-meta">${formatDate(post.date)}</div>`
             +     `<p class="post-excerpt">${post.description}</p>`
             +   '</article>'
-            + '</section>'
-            + hrElement;
+            + '</section>';
         }).join('\n');
 
         blogPostsContainer.innerHTML = html;
