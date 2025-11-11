@@ -1,37 +1,46 @@
-// Blog posts data
-const blogPosts = [
-    {
-        date: '2025-01-15',
-        title: 'Getting Started with Modern Web Development',
-        description: 'An overview of the latest tools and frameworks that make web development faster and more efficient. Learn about the ecosystem and best practices.',
-        slug: 'getting-started-modern-web-dev'
-    },
-    {
-        date: '2025-01-08',
-        title: 'Understanding Async Programming',
-        description: 'A deep dive into asynchronous programming patterns, promises, async/await, and how to handle complex asynchronous flows in JavaScript.',
-        slug: 'understanding-async-programming'
-    },
-    {
-        date: '2025-01-01',
-        title: 'The Future of Frontend Frameworks',
-        description: 'Exploring emerging trends in frontend development, from server components to new rendering strategies and what they mean for developers.',
-        slug: 'future-of-frontend-frameworks'
-    },
-    {
-        date: '2024-12-20',
-        title: 'Building Scalable Applications',
-        description: 'Best practices for architecting applications that can grow with your user base. Learn about microservices, caching strategies, and database optimization.',
-        slug: 'building-scalable-applications'
-    }
+// Central post metadata for the site
+// Exposes POSTS and sets window.postMeta so individual post pages can read title, description, and slug.
+
+// Define posts here. Use the filename (without extension) as the slug.
+export const POSTS = [
+  {
+    slug: "music_post",
+    title: "My favorite music to listen to",
+    description: "I've spent some time curating my music taste. I spend a lot of time listening to music, so here are some recommendations."
+  }
 ];
 
-// Format date to readable format
-@@ -43,7 +19,7 @@ function renderBlogPosts() {
-    }
+// Convenience export for single-post pages
+export const DEFAULT_POST = POSTS[0];
 
-    if (blogPosts.length === 0) {
-        blogPostsContainer.innerHTML = '<p style="color: var(--text-secondary);">No blog posts yet. Check back soon!</p>';
-        blogPostsContainer.innerHTML = '<p style="color: var(--text-secondary);">Coming Soon</p>';
-        return;
-    }
+function getCurrentSlugFromPath() {
+  if (typeof window === "undefined") return null;
+  // Get the last segment of the path and strip any extension
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  if (!parts.length) return null;
+  let last = parts[parts.length - 1];
+  last = last.replace(/\.[^/.]+$/, ''); // remove extension like .html
+  return last || null;
+}
+
+function buildPostMeta() {
+  const slug = getCurrentSlugFromPath();
+  const post = POSTS.find(p => p.slug === slug) || DEFAULT_POST;
+  return {
+    title: post.title,
+    description: post.description,
+    slug: post.slug,
+    posts: POSTS
+  };
+}
+
+// Attach metadata to window.postMeta so post pages and templates can read it
+if (typeof window !== "undefined") {
+  window.postMeta = buildPostMeta();
+}
+
+export default {
+  POSTS,
+  DEFAULT_POST,
+  buildPostMeta
+};
