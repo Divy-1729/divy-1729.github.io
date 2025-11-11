@@ -776,3 +776,9 @@ html {
   margin: 100px 0;
 }
 
+.blog-post-section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: var(--section-bg, transparent);
+  border-radius: 8px;
+}
