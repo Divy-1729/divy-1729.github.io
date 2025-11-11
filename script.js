@@ -1,56 +1,100 @@
-// Blog posts data
-const blogPosts = [
-];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- MathJax for LaTeX support -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <a href="index.html">Home</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="https://github.com/Divy-1729" class="nav-link" target="_blank" rel="noopener noreferrer">
+                    GitHub ↗
+                </a>
+            </div>
+        </nav>
+    </header>
 
-// Format date to readable format
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-}
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">Blog</h1>
 
-// Render blog posts
-function renderBlogPosts() {
-    const blogPostsContainer = document.getElementById('blogPosts');
-    
-    if (!blogPostsContainer) {
-        console.error('Blog posts container not found');
-        return;
-    }
+            <!-- Rendered by script.js: script looks for #blogPosts -->
+            <div id="blogPosts" class="coming-soon-container"></div>
+        </div>
+    </main>
 
-    if (blogPosts.length === 0) {
-        blogPostsContainer.innerHTML = '<p style="color: var(--text-secondary);">Coming Soon</p>';
-        return;
-    }
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">Home</a>
+                <a href="blog.html" class="footer-link">Blog</a>
+                <a href="about.html" class="footer-link">About</a>
+                <a href="https://github.com/Divy-1729" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025
+            </div>
+        </div>
+    </footer>
 
-    blogPostsContainer.innerHTML = blogPosts.map(post => `
-        <article class="blog-post">
-            <div class="post-date">${formatDate(post.date)}</div>
-            <h2 class="post-title">
-                <a href="posts/${post.slug}.html">${post.title}</a>
-            </h2>
-            <p class="post-description">${post.description}</p>
-            <a href="posts/${post.slug}.html" class="read-more">Read more</a>
-        </article>
-    `).join('');
-}
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    renderBlogPosts();
-});
-
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+    <script>
+        // Create snowflakes (kept as-is)
+        function createSnowflakes() {
+            const snowContainer = document.createElement('div');
+            snowContainer.className = 'snow-container';
+            document.body.appendChild(snowContainer);
+            
+            const snowflakeSymbols = ['❄', '❅', '❆', '•'];
+            const numSnowflakes = 30;
+            
+            for (let i = 0; i < numSnowflakes; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+                
+                snowflake.style.left = Math.random() * 100 + '%';
+                const duration = 15 + Math.random() * 10;
+                snowflake.style.animationDuration = duration + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                const size = 0.5 + Math.random() * 1;
+                snowflake.style.fontSize = size + 'em';
+                snowflake.style.opacity = 0.4 + Math.random() * 0.4;
+                
+                snowContainer.appendChild(snowflake);
+            }
+            
+            const snowAccumulation = document.createElement('div');
+            snowAccumulation.className = 'snow-accumulation';
+            document.body.appendChild(snowAccumulation);
         }
-    });
-});
+        
+        document.addEventListener('DOMContentLoaded', createSnowflakes);
+    </script>
 
+    <!-- Link to your external script file. Adjust path if script.js is not next to blog.html -->
+    <script src="script.js" defer></script>
+</body>
+</html>
