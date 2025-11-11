@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Blog</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Extra spacing between the main title and the posts list */
+    .container h1 {
+      margin-bottom: 2.5rem; /* increase space under the title */
+      line-height: 1.1;
+    }
+
+    /* Small improvements for post list spacing */
+    .posts-list {
+      display: block;
+      margin-top: 0.5rem;
+    }
+
+    .post-preview {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    @media (min-width: 800px) {
+      .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="main">
