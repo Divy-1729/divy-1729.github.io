@@ -1,98 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <!-- MathJax for LaTeX support -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            }
-        };
-    </script>
-</head>
-<body>
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-brand">
-                <a href="index.html">Home</a>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="blog.html" class="nav-link">Blog</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="https://github.com/Divy-1729" class="nav-link" target="_blank" rel="noopener noreferrer">
-                    GitHub ↗
-                </a>
-            </div>
-        </nav>
-    </header>
+/ Blog posts data
+const blogPosts = [
+    {
+        date: '2025-01-15',
+        title: 'Getting Started with Modern Web Development',
+        description: 'An overview of the latest tools and frameworks that make web development faster and more efficient. Learn about the ecosystem and best practices.',
+        slug: 'getting-started-modern-web-dev'
+    },
+    {
+        date: '2025-01-08',
+        title: 'Understanding Async Programming',
+        description: 'A deep dive into asynchronous programming patterns, promises, async/await, and how to handle complex asynchronous flows in JavaScript.',
+        slug: 'understanding-async-programming'
+    },
+    {
+        date: '2025-01-01',
+        title: 'The Future of Frontend Frameworks',
+        description: 'Exploring emerging trends in frontend development, from server components to new rendering strategies and what they mean for developers.',
+        slug: 'future-of-frontend-frameworks'
+    },
+    {
+        date: '2024-12-20',
+        title: 'Building Scalable Applications',
+        description: 'Best practices for architecting applications that can grow with your user base. Learn about microservices, caching strategies, and database optimization.',
+        slug: 'building-scalable-applications'
+    }
+];
 
-    <main class="main">
-        <div class="container">
-            <h1 class="page-title">Blog</h1>
-            <div class="coming-soon-container">
-                <p class="coming-soon-text">Coming soon</p>
-            </div>
-        </div>
-    </main>
+// Format date to readable format
+@@ -43,7 +19,7 @@ function renderBlogPosts() {
+    }
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-links">
-                <a href="index.html" class="footer-link">Home</a>
-                <a href="blog.html" class="footer-link">Blog</a>
-                <a href="about.html" class="footer-link">About</a>
-                <a href="https://github.com/Divy-1729" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </div>
-            <div class="footer-copyright">
-                © 2025
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Create snowflakes
-        function createSnowflakes() {
-            const snowContainer = document.createElement('div');
-            snowContainer.className = 'snow-container';
-            document.body.appendChild(snowContainer);
-            
-            const snowflakeSymbols = ['❄', '❅', '❆', '•'];
-            const numSnowflakes = 30;
-            
-            for (let i = 0; i < numSnowflakes; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.textContent = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
-                
-                snowflake.style.left = Math.random() * 100 + '%';
-                const duration = 15 + Math.random() * 10;
-                snowflake.style.animationDuration = duration + 's';
-                snowflake.style.animationDelay = Math.random() * 5 + 's';
-                const size = 0.5 + Math.random() * 1;
-                snowflake.style.fontSize = size + 'em';
-                snowflake.style.opacity = 0.4 + Math.random() * 0.4;
-                
-                snowContainer.appendChild(snowflake);
-            }
-            
-            const snowAccumulation = document.createElement('div');
-            snowAccumulation.className = 'snow-accumulation';
-            document.body.appendChild(snowAccumulation);
-        }
-        
-        document.addEventListener('DOMContentLoaded', createSnowflakes);
-    </script>
-</body>
-</html>
-
+    if (blogPosts.length === 0) {
+        blogPostsContainer.innerHTML = '<p style="color: var(--text-secondary);">No blog posts yet. Check back soon!</p>';
+        blogPostsContainer.innerHTML = '<p style="color: var(--text-secondary);">Coming Soon</p>';
+        return;
+    }
