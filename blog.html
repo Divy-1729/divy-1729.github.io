@@ -17,7 +17,31 @@
   <script type="module">
     // Blog posts data
     const blogPosts = [
-      // Added the new post entry so it appears in the blog index
+      {
+        date: '2025-01-15',
+        title: 'Getting Started with Modern Web Development',
+        description: 'An overview of the latest tools and frameworks that make web development faster and more efficient. Learn about the ecosystem and best practices.',
+        slug: 'getting-started-modern-web-dev'
+      },
+      {
+        date: '2025-01-08',
+        title: 'Understanding Async Programming',
+        description: 'A deep dive into asynchronous programming patterns, promises, async/await, and how to handle complex asynchronous flows in JavaScript.',
+        slug: 'understanding-async-programming'
+      },
+      {
+        date: '2025-01-01',
+        title: 'The Future of Frontend Frameworks',
+        description: 'Exploring emerging trends in frontend development, from server components to new rendering strategies and what they mean for developers.',
+        slug: 'future-of-frontend-frameworks'
+      },
+      {
+        date: '2024-12-20',
+        title: 'Building Scalable Applications',
+        description: 'Best practices for architecting applications that can grow with your user base. Learn about microservices, caching strategies, and database optimization.',
+        slug: 'building-scalable-applications'
+      },
+      // New music post entry so it appears in the blog index
       {
         date: '2025-11-11',
         title: 'My favorite music to listen to',
@@ -26,14 +50,12 @@
       }
     ];
 
-    // Helper to format date to a nicer string
+    // Helper to format ISO date to a nicer string
     function formatDate(iso) {
-      try {
-        const d = new Date(iso);
-        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-      } catch {
-        return iso;
-      }
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return iso;
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     // Render posts into the page
@@ -41,16 +63,14 @@
       const blogPostsContainer = document.getElementById('blog-posts');
       if (!blogPostsContainer) return;
 
-      if (blogPosts.length === 0) {
+      if (!blogPosts || blogPosts.length === 0) {
         blogPostsContainer.innerHTML = '<p style="color: var(--text-secondary);">Coming Soon</p>';
         return;
       }
 
       const html = blogPosts.map(post => {
-        // linkTo tries both posts/<slug>.html and /posts/<slug>/ to match different setups
-        const link1 = `posts/${post.slug}.html`;
-        const link2 = `posts/${post.slug}/`;
-        const url = link1; // choose link1 by default; adjust if your hosting uses folder-per-post
+        // Try posts/<slug>.html by default; if you use folder per post, change to `posts/${post.slug}/`
+        const url = `posts/${post.slug}.html`;
         return `
           <article class="post-preview">
             <a class="post-link" href="${url}">
@@ -65,7 +85,7 @@
       blogPostsContainer.innerHTML = html;
     }
 
-    // Run
+    // Initialize
     renderBlogPosts();
   </script>
 </body>
