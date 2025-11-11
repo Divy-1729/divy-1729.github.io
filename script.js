@@ -1,4 +1,4 @@
-/ Blog posts data
+// Blog posts data
 const blogPosts = [
     {
         date: '2025-01-15',
