@@ -70,7 +70,7 @@
                         From the architecture diagram, we see some distinct features. Here is what the pipeline
                         looks like:
                     </p>
-  
+
                     <p>
                         <code>
                             input → embedding → encoder <br>
@@ -78,12 +78,13 @@
                         </code>
                     </p>
 
-                  <div class="post-image">
-                      <img src="transformer-architecture.jpg" alt="Transformer architecture diagram from Attention Is All You Need">
-                      <p class="image-caption">
-                          The Transformer architecture as introduced in Attention Is All You Need.
-                      </p>
-                  </div>
+                    <!-- Architecture image (put transformer-architecture.jpg in the same folder as this HTML file) -->
+                    <div class="post-image">
+                        <img src="transformer-architecture.jpg" alt="Transformer architecture diagram from Attention Is All You Need">
+                        <p class="image-caption">
+                            The Transformer architecture as introduced in Attention Is All You Need.
+                        </p>
+                    </div>
 
                     <p>
                         Let’s first start by understanding how a transformer makes predictions. A transformer is
@@ -118,6 +119,78 @@
                         sentence token.
                     </p>
 
+                    <h2>What is a token?</h2>
+
+                    <p>
+                        If you've understood this next, the next question you might be thinking about is exactly what a token is.
+                        In simple terms, tokens are just parts of a sentence, like words. Most modern LLMs today use a tokenizer
+                        to convert tokens to words. This is a really fucked up but cool algorithm called Byte Pair Encoding.
+                    </p>
+
+                    <!-- Tokenization image (put tokens_to_word.jpg in the same folder as this HTML file) -->
+                    <div class="post-image">
+                        <img src="tokens_to_word.jpg" alt="Example of tokenization into subword pieces (Byte Pair Encoding)">
+                        <p class="image-caption">
+                            Example: breaking a sentence into tokens (often subword pieces).
+                        </p>
+                    </div>
+
+                    <p>
+                        As you see in the image, we successfully tokenized our sentence into sub-parts.
+                        The next step is to convert this token into an embedding.
+                    </p>
+
+                    <!-- Embedding image (put embedding.jpg in the same folder as this HTML file) -->
+                    <div class="post-image">
+                        <img src="embedding.jpg" alt="Tokens converted into vectors (embeddings)">
+                        <p class="image-caption">
+                            Tokens are mapped into vectors (embeddings) so the model can work with numbers.
+                        </p>
+                    </div>
+
+                    <p>
+                        An embedding is simply a high-dimensional representation of our word. Transformers are based on an
+                        architecture called neural networks, and these networks can unfortunately only understand and work with
+                        matrices full of numbers. The embedding is just the transformation of this sentence into a matrix full of numbers.
+                    </p>
+
+                    <p>
+                        There are many known algorithms to create embeddings, some of which are word2vec and GloVe.
+                        These are very interesting papers I recommend reading. A classic example people use to show that embeddings
+                        capture meaning is:
+                    </p>
+
+                    <p>
+                        $$
+                        \text{vector}(\text{king}) - \text{vector}(\text{man}) + \text{vector}(\text{woman}) \approx \text{vector}(\text{queen})
+                        $$
+                    </p>
+
+                    <h2>Positional encoding</h2>
+
+                    <p>
+                        After creating the embedding, the transformer introduces a positional encoding → essentially a means to encode the position
+                        of a token in a sentence.
+                    </p>
+
+                    <p>
+                        In the original transformer paper, positional encodings are added to embeddings and are defined using sine and cosine:
+                    </p>
+
+                    <p>
+                        $$
+                        PE(pos, 2i) = \sin\Big(\frac{pos}{10000^{2i/d_{\text{model}}}}\Big)
+                        $$
+                        $$
+                        PE(pos, 2i+1) = \cos\Big(\frac{pos}{10000^{2i/d_{\text{model}}}}\Big)
+                        $$
+                    </p>
+
+                    <p>
+                        Here, $pos$ is the position of the token in the sentence (0, 1, 2, ...), $i$ is the dimension index, and $d_{\text{model}}$
+                        is the embedding size.
+                    </p>
+
                 </div>
             </article>
         </div>
@@ -138,4 +211,3 @@
     </footer>
 </body>
 </html>
-
