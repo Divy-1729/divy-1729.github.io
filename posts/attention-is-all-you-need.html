@@ -1,1 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Is All You Need Explained Simply</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            }
+        };
+    </script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <a href="../index.html">Home</a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../about.html" class="nav-link">About</a>
+                <a href="https://github.com/Divy-1729" class="nav-link" target="_blank" rel="noopener noreferrer">
+                    GitHub ↗
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <a href="../blog.html" class="back-link">Back to blog</a>
+            <article class="blog-post">
+                <div class="post-date">January 2025</div>
+                <h1 class="post-title">Attention Is All You Need Explained Simply</h1>
+                <div class="post-content">
+
+                    <p>
+                        I finally decided to sit down and write a blog post on the transformer paper by Google,
+                        <em>Attention Is All You Need</em>. My goal is to help you, the reader, understand this paper
+                        and this architecture with as little prerequisite knowledge as possible.
+                    </p>
+
+                    <p>
+                        At the highest level, you can think of the transformer as a sequence to sequence
+                        translation model.
+                    </p>
+
+                    <p>
+                        <code>I like cats</code> → transformer → <code>j’aime les chats</code>
+                    </p>
+
+                    <p>
+                        We can understand everything about the transformer by following the journey of these
+                        words.
+                    </p>
+
+                    <p>
+                        From the architecture diagram, we see some distinct features. Here is what the pipeline
+                        looks like:
+                    </p>
+  
+                    <p>
+                        <code>
+                            input → embedding → encoder <br>
+                            output → decoder (with a link from the encoder) → linear layer + softmax → prediction
+                        </code>
+                    </p>
+
+                  <div class="post-image">
+                      <img src="transformer-architecture.png" alt="Transformer architecture diagram from Attention Is All You Need">
+                      <p class="image-caption">
+                          The Transformer architecture as introduced in Attention Is All You Need.
+                      </p>
+                  </div>
+
+                    <p>
+                        Let’s first start by understanding how a transformer makes predictions. A transformer is
+                        autoregressive. This means it uses all of its previous predictions to make the current
+                        prediction.
+                    </p>
+
+                    <p>
+                        So if you feed the transformer the sentence <code>I like cats</code>, here is what the
+                        process looks like when the transformer generates a translation:
+                    </p>
+
+                    <p>
+                        <code>I like cats</code> → transformer → <code>&lt;BOS&gt;</code>
+                        (a beginning of sentence token that tells the decoder to start generating)
+                    </p>
+
+                    <p>
+                        <code>I like cats &lt;BOS&gt;</code> → transformer → <code>J’</code>
+                    </p>
+
+                    <p>
+                        <code>I like cats &lt;BOS&gt; J’</code> → transformer → <code>aime</code>
+                    </p>
+
+                    <p>
+                        <code>I like cats &lt;BOS&gt; J’ aime</code> → transformer → <code>les</code>
+                    </p>
+
+                    <p>
+                        And we continue this process until the model predicts <code>&lt;EOS&gt;</code>, the end of
+                        sentence token.
+                    </p>
+
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">Home</a>
+                <a href="../blog.html" class="footer-link">Blog</a>
+                <a href="../about.html" class="footer-link">About</a>
+                <a href="https://github.com/Divy-1729" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+            <div class="footer-copyright">
+                © 2025
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
 
