@@ -127,7 +127,7 @@
                         to convert tokens to words. This is a really fucked up but cool algorithm called Byte Pair Encoding.
                     </p>
 
-                    <!-- Tokenization image (put tokens_to_word.jpg in the same folder as this HTML file) -->
+                    <!-- Tokenization image (put tokens_to_words.jpg in the same folder as this HTML file) -->
                     <div class="post-image">
                         <img src="tokens_to_words.jpg" alt="Example of tokenization into subword pieces (Byte Pair Encoding)">
                         <p class="image-caption">
@@ -191,6 +191,116 @@
                         is the embedding size.
                     </p>
 
+                    <h2>The encoder</h2>
+
+                    <p>
+                        Now that we have converted our input text into an embedding, it is time to encode our input embedding.
+                        Here is what the encoder looks like:
+                    </p>
+
+                    <!-- Encoder image (put encoder.png in the same folder as this HTML file) -->
+                    <div class="post-image">
+                        <img src="encoder.png" alt="Transformer encoder block diagram">
+                        <p class="image-caption">
+                            The Transformer encoder block.
+                        </p>
+                    </div>
+
+                    <p>
+                        Let’s go into each part of the encoder in detail, but before that, we need to define three key terms:
+                        Query, Key, Value.
+                    </p>
+
+                    <h3>Query, Key, Value (search engine intuition)</h3>
+
+                    <p>
+                        A useful way to think about attention is like a search engine.
+                        You type a search query, the search engine looks through a database of pages, and it returns the most relevant ones.
+                    </p>
+
+                    <ul>
+                        <li><strong>Query (Q)</strong>: what you are looking for. For a given token, it represents the question that token is asking about the rest of the sentence.</li>
+                        <li><strong>Key (K)</strong>: what each token offers as a label or summary. Keys are what the model matches the query against.</li>
+                        <li><strong>Value (V)</strong>: the actual information you want to retrieve once you find a match. Values are the content that gets mixed together.</li>
+                    </ul>
+
+                    <p>
+                        Luckily for us, all of these vectors for query, key, and value are essentially derived from the same input embedding.
+                        Concretely, we take the embedding matrix $X \in \mathbb{R}^{n \times d_{\text{model}}}$ and multiply it by three learned weight matrices:
+                    </p>
+
+                    <p>
+                        $$
+                        Q = XW^Q,\quad K = XW^K,\quad V = XW^V
+                        $$
+                    </p>
+
+                    <p>
+                        Each row corresponds to a token, so $n$ is the number of tokens in the sentence.
+                        The dimensions are usually:
+                        $Q \in \mathbb{R}^{n \times d_k}$, $K \in \mathbb{R}^{n \times d_k}$, $V \in \mathbb{R}^{n \times d_v}$.
+                    </p>
+
+                    <h2>Scaled dot product attention</h2>
+
+                    <p>
+                        The most important contribution of the transformer is multi-head attention.
+                        To understand it, we must first define attention, also called scaled dot product attention.
+                    </p>
+
+                    <p>
+                        Scaled dot product attention defines how much "attention" the transformer pays to all the other input tokens in a sentence,
+                        given one token. It is computed by:
+                    </p>
+
+                    <p>
+                        $$
+                        \text{Attention}(Q, K, V) = \text{softmax}\Big(\frac{QK^\top}{\sqrt{d_k}}\Big)V
+                        $$
+                    </p>
+
+                    <p>
+                        Note the normalization term $\sqrt{d_k}$. We divide by $\sqrt{d_k}$ because as the dimension grows,
+                        dot products tend to get larger in magnitude, which can make the softmax extremely peaky.
+                        That can lead to tiny gradients and unstable training. Scaling keeps the numbers in a nicer range.
+                    </p>
+
+                    <p>
+                        As you might have noticed, attention has an $O(n^2)$ time complexity because $QK^\top$ is an $n \times n$ matrix.
+                        This is one of the biggest problems in transformers, and many workarounds have been introduced, like FlashAttention.
+                    </p>
+
+                    <p>
+                        This is a nice visualization of attention I found from Jay Alammar’s blog:
+                    </p>
+
+                    <!-- Attention visualization image (put attention.png in the same folder as this HTML file) -->
+                    <div class="post-image">
+                        <img src="attention.png" alt="Attention visualization">
+                        <p class="image-caption">
+                            A visualization of attention weights.
+                        </p>
+                    </div>
+
+                    <h2>Self-attention, masked self-attention, and cross-attention</h2>
+
+                    <p>
+                        Attention in the encoder is called self-attention because the query, key, and value vectors all come from the encoder input.
+                    </p>
+
+                    <p>
+                        A couple things are different in the decoder. One is <strong>masked self-attention</strong>.
+                        The decoder generates tokens one at a time, and when it is predicting the next token, it is not allowed to "peek" at future tokens.
+                        So we apply a mask that forces attention to only look left, at earlier positions in the output sequence.
+                        This is what makes the decoder truly autoregressive.
+                    </p>
+
+                    <p>
+                        The decoder also does <strong>cross-attention</strong>, where the keys and values come from the encoder output,
+                        while the queries come from the decoder. Intuitively, the decoder is asking:
+                        "Given what I have generated so far, which parts of the input sentence should I focus on right now?"
+                    </p>
+
                 </div>
             </article>
         </div>
@@ -202,6 +312,7 @@
                 <a href="../index.html" class="footer-link">Home</a>
                 <a href="../blog.html" class="footer-link">Blog</a>
                 <a href="../about.html" class="footer-link">About</a>
+                <a href="https://github.com/Divy-1729" class="footer-link">About</a>
                 <a href="https://github.com/Divy-1729" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
             <div class="footer-copyright">
